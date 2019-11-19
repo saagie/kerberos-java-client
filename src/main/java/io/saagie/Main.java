@@ -93,7 +93,7 @@ public class Main {
         }
         stmt.execute(sqlStatementDrop);
 
-        // Hive
+        // Impala
         Connection impalaConnection = null;
         impalaConnection = DriverManager.getConnection("jdbc:hive2://dn1:21050/;principal=impala/_HOST@" + kerberosRealm);
         sqlStatementDrop = "DROP TABLE IF EXISTS impalatest";
