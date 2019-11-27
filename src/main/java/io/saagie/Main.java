@@ -25,6 +25,8 @@ public class Main {
     private static String username;
     private static String password;
     private static String HADOOP_CONF_DIR = System.getenv("HADOOP_CONF_DIR");
+    private static String HIVE_HOSTNAME = System.getenv("HIVE_HOSTNAME");
+    private static String IMPALA_HOSTNAME = System.getenv("IMPALA_HOSTNAME");
 
     private static LoginContext kinit(String username, String password) throws LoginException {
         LoginContext lc = new LoginContext(Main.class.getSimpleName(), callbacks -> {
@@ -77,8 +79,9 @@ public class Main {
 
         Class.forName(JDBC_DRIVER_NAME);
         // Hive
+        
         Connection hiveConnection = null;
-        hiveConnection = DriverManager.getConnection("jdbc:hive2://nn1:10000/;principal=hive/_HOST@" + kerberosRealm + ";saslQop=auth-conf");
+        hiveConnection = DriverManager.getConnection("jdbc:hive2://" + HIVE_HOSTNAME + ":10000/;principal=hive/" + HIVE_HOSTNAME + "@" + kerberosRealm + ";saslQop=auth-conf");
         String sqlStatementDrop = "DROP TABLE IF EXISTS hivetest";
         String sqlStatementCreate = "CREATE TABLE hivetest (message String) STORED AS PARQUET";
         String sqlStatementInsert = "INSERT INTO hivetest VALUES (\"helloworld\")";
@@ -95,7 +98,7 @@ public class Main {
 
         // Impala
         Connection impalaConnection = null;
-        impalaConnection = DriverManager.getConnection("jdbc:hive2://dn1:21050/;principal=impala/_HOST@" + kerberosRealm);
+        impalaConnection = DriverManager.getConnection("jdbc:hive2://" + IMPALA_HOSTNAME + ":21050/;principal=impala/" + IMPALA_HOSTNAME + "@" + kerberosRealm);
         sqlStatementDrop = "DROP TABLE IF EXISTS impalatest";
         sqlStatementCreate = "CREATE TABLE impalatest (message String) STORED AS PARQUET";
         sqlStatementInsert = "INSERT INTO impalatest VALUES (\"helloworld\")";
