@@ -79,9 +79,8 @@ public class Main {
 
         Class.forName(JDBC_DRIVER_NAME);
         // Hive
-        
-        Connection hiveConnection = null;
-        hiveConnection = DriverManager.getConnection("jdbc:hive2://" + HIVE_HOSTNAME + ":10000/;principal=hive/" + HIVE_HOSTNAME + "@" + kerberosRealm + ";saslQop=auth-conf");
+
+        Connection hiveConnection = DriverManager.getConnection("jdbc:hive2://" + HIVE_HOSTNAME + ":10000/;principal=hive/" + HIVE_HOSTNAME + "@" + kerberosRealm + ";saslQop=auth-conf");
         String sqlStatementDrop = "DROP TABLE IF EXISTS hivetest";
         String sqlStatementCreate = "CREATE TABLE hivetest (message String) STORED AS PARQUET";
         String sqlStatementInsert = "INSERT INTO hivetest VALUES (\"helloworld\")";
@@ -97,8 +96,7 @@ public class Main {
         stmt.execute(sqlStatementDrop);
 
         // Impala
-        Connection impalaConnection = null;
-        impalaConnection = DriverManager.getConnection("jdbc:hive2://" + IMPALA_HOSTNAME + ":21050/;principal=impala/" + IMPALA_HOSTNAME + "@" + kerberosRealm);
+        Connection impalaConnection = DriverManager.getConnection("jdbc:hive2://" + IMPALA_HOSTNAME + ":21050/;principal=impala/" + IMPALA_HOSTNAME + "@" + kerberosRealm);
         sqlStatementDrop = "DROP TABLE IF EXISTS impalatest";
         sqlStatementCreate = "CREATE TABLE impalatest (message String) STORED AS PARQUET";
         sqlStatementInsert = "INSERT INTO impalatest VALUES (\"helloworld\")";
